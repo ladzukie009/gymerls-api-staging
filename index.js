@@ -7,22 +7,22 @@ app.use(cors());
 app.use(express.json());
 
 // LOCAL ENV
-// var db = mysql.createPool({
-//   connectionLimit: 10,
-//   host: "localhost",
-//   user: "root",
-//   password: "",
-//   database: "gym_management_db",
-// });
-
-// STAGING ENV
 var db = mysql.createPool({
   connectionLimit: 10,
-  host: "bjgr1jesl31jjxv5rcmu-mysql.services.clever-cloud.com",
-  user: "ucxfeyaweansk3lu",
-  password: "wUROvHozK3k8jE0nv4G6",
-  database: "bjgr1jesl31jjxv5rcmu",
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "gym_management_db",
 });
+
+// // STAGING ENV
+// var db = mysql.createPool({
+//   connectionLimit: 10,
+//   host: "bjgr1jesl31jjxv5rcmu-mysql.services.clever-cloud.com",
+//   user: "ucxfeyaweansk3lu",
+//   password: "wUROvHozK3k8jE0nv4G6",
+//   database: "bjgr1jesl31jjxv5rcmu",
+// });
 
 // // LIVE ENV
 // var db = mysql.createPool({
@@ -102,6 +102,17 @@ app.get("/api/all-user", (req, res) => {
 // GET USER INNER JOIN USER'S PROFILE
 app.get("/api/users", (req, res) => {
   const sql = `SELECT * FROM users INNER JOIN user_profile ON users.username = user_profile.username`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json("Error");
+    }
+    return res.json(data);
+  });
+});
+
+// GET USER INNER JOIN USER'S PROFILE with condition
+app.get("/api/user-role", (req, res) => {
+  const sql = `SELECT * FROM users INNER JOIN user_profile ON users.username = user_profile.username WHERE users.role = "user"`;
   db.query(sql, (err, data) => {
     if (err) {
       return res.json("Error");
@@ -560,6 +571,140 @@ app.patch("/api/update-transaction", async (req, res) => {
   status = "${req.body.status}",
   receipt_url = "${req.body.receipt_url}"
   WHERE id = "${req.body.id}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// RESERVATION
+app.post("/api/create-reservation", async (req, res) => {
+  const sql = `INSERT INTO reservation (username, notes, reservation_date, status, time_slot, coach_name, added_date) VALUES (
+    '${req.body.username}',
+    '${req.body.notes}',
+    '${req.body.reservation_date}',
+    '${req.body.status}',
+    '${req.body.time_slot}',
+    '${req.body.coach_name}',
+    '${req.body.added_date}')`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY DATE
+app.post("/api/get-reservation-by-date", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE reservation_date = "${req.body.reservation_date}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY DATE AND STATUS
+app.post("/api/get-reservation-by-date-and-status", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE reservation_date = "${req.body.reservation_date}" AND status = "${req.body.status}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY DATE AND STATUS
+app.post("/api/get-reservation-by-date-and-role", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE reservation_date = "${req.body.reservation_date}" AND status = "user"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY DATE AND STATUS = "CONFIRMED"
+app.post("/api/get-reservation-by-date-and-status-is-confirmed", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE reservation_date = "${req.body.reservation_date}" AND status = "Confirmed"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY ID
+app.post("/api/get-reservation-by-id", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE id = "${req.body.id}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY USERNAME
+app.post("/api/get-reservation-by-username", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE username = "${req.body.username}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY USERNAME
+app.post("/api/get-reservation-by-username-date-status", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE username = "${req.body.username}" AND reservation_date = "${req.body.reservation_date}" AND status = "${req.body.status}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET RESERVATION BY USERNAME AND DATE
+app.post("/api/get-reservation-by-username-and-date", (req, res) => {
+  const sql = `SELECT * FROM reservation WHERE username = "${req.body.username}" AND reservation_date = "${req.body.reservation_date}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// UPDATE RESERVATION
+app.patch("/api/update-reservation", async (req, res) => {
+  const sql = `UPDATE reservation SET 
+  reservation_date = "${req.body.reservation_date}",
+  notes = "${req.body.notes}",
+  time_slot = "${req.body.time_slot}",
+  coach_name = "${req.body.coach_name}",
+  status = "${req.body.status}"
+  WHERE id = "${req.body.id}" AND username = "${req.body.username}"`;
 
   db.query(sql, (err, data) => {
     if (err) {
