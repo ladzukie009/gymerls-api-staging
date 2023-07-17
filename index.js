@@ -121,6 +121,106 @@ app.get("/api/user-role", (req, res) => {
   });
 });
 
+// GET USER INNER JOIN USER'S PROFILE with condition (Membership)
+app.get("/api/user-membership", (req, res) => {
+  const sql = `SELECT * FROM users INNER JOIN user_profile ON users.username = user_profile.username WHERE user_profile.membership_type = "Premium"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json("Error");
+    }
+    return res.json(data);
+  });
+});
+
+// GET USER INNER JOIN USER'S PROFILE with condition (Role and Membership)
+app.get("/api/user-role-membership", (req, res) => {
+  const sql = `SELECT * FROM users INNER JOIN user_profile ON users.username = user_profile.username WHERE users.role = "user" AND user_profile.membership_type = "Premium"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json("Error");
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN USERS TABLE
+app.patch("/api/delete-user", async (req, res) => {
+  const sql = `DELETE FROM users WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN USER_PROFILE TABLE
+app.patch("/api/delete-user-profile", async (req, res) => {
+  const sql = `DELETE FROM user_profile WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN MEAL_PLAN TABLE
+app.patch("/api/delete-user-meal-plan", async (req, res) => {
+  const sql = `DELETE FROM meal_plan WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN TRANSACTION TABLE
+app.patch("/api/delete-user-transaction", async (req, res) => {
+  const sql = `DELETE FROM transaction WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN RESERVATION TABLE
+app.patch("/api/delete-user-reservation", async (req, res) => {
+  const sql = `DELETE FROM reservation WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE USER IN CART TABLE
+app.patch("/api/delete-user-cart", async (req, res) => {
+  const sql = `DELETE FROM cart WHERE username = "${req.body.username}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
 // LOGIN
 app.post("/api/get-user", async (req, res) => {
   const username = req.body.username;
