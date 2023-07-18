@@ -815,6 +815,22 @@ app.patch("/api/update-reservation", async (req, res) => {
   });
 });
 
+// USER LOGS
+app.post("/api/insert-log", async (req, res) => {
+  const sql = `INSERT INTO user_logs (username, event_info, ip_address, platform) VALUES (
+    '${req.body.username}',
+    '${req.body.event_info}',
+    '${req.body.ip_address}',
+    '${req.body.platform}')`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
 const port = 3031 || process.env.PORT;
 
 app.listen(port, () => {
