@@ -258,6 +258,18 @@ app.post("/api/get-user-by-username", async (req, res) => {
   });
 });
 
+// GET USER INNER JOIN USER'S PROFILE USING USERNAME
+app.post("/api/get-admin-by-username", async (req, res) => {
+  const username = req.body.username;
+  const sql = `SELECT * FROM users WHERE username = ?`;
+  db.query(sql, [username], (err, data) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
 // GET USER INNER JOIN USER'S PROFILE WITH ADDED BY CONDITION
 app.post("/api/get-user-by-role", async (req, res) => {
   const added_by = req.body.added_by;
@@ -472,6 +484,17 @@ app.post("/api/create-product", async (req, res) => {
 // GET ALL PRODUCTS
 app.get("/api/products", (req, res) => {
   const sql = "SELECT * FROM products";
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET TOP 5 PRODUCTS
+app.get("/api/top-products", (req, res) => {
+  const sql = "SELECT * FROM products LIMIT 5";
   db.query(sql, (err, data) => {
     if (err) {
       return res.json(err.message);
@@ -830,6 +853,60 @@ app.post("/api/insert-log", async (req, res) => {
     return res.json(data);
   });
 });
+
+// GET ALL USER LOGS
+app.get("/api/get-all-logs", (req, res) => {
+  const sql = `SELECT * FROM user_logs ORDER BY event_time DESC`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// ANNOUNCEMENT
+app.post("/api/create-announcement", async (req, res) => {
+  const sql = `INSERT INTO announcement (title, description, status, added_by, event_date, event_time) VALUES (
+    '${req.body.title}',
+    '${req.body.description}',
+    '${req.body.status}',
+    '${req.body.added_by}',
+    '${req.body.event_date}',
+    '${req.body.event_time}')`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET ANNOUNCEMENT
+app.get("/api/get-all-announcement", (req, res) => {
+  const sql = `SELECT * FROM announcement`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// // GET ALL USER LOGS
+// app.get("/api/backup-database", (req, res) => {
+//   const sql = `BACKUP DATABASE gym_management_db`;
+//   db.query(sql, (err, data) => {
+//     if (err) {
+//       console.log(err.message);
+//       return res.json(err.message);
+//     }
+//     return res.json(data);
+//   });
+// });
 
 const port = 3031 || process.env.PORT;
 
