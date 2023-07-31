@@ -492,9 +492,9 @@ app.get("/api/products", (req, res) => {
   });
 });
 
-// GET TOP 5 PRODUCTS
+// GET TOP 4 PRODUCTS
 app.get("/api/top-products", (req, res) => {
-  const sql = "SELECT * FROM products LIMIT 5";
+  const sql = "SELECT * FROM products LIMIT 4";
   db.query(sql, (err, data) => {
     if (err) {
       return res.json(err.message);
@@ -887,6 +887,49 @@ app.post("/api/create-announcement", async (req, res) => {
 // GET ANNOUNCEMENT
 app.get("/api/get-all-announcement", (req, res) => {
   const sql = `SELECT * FROM announcement`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// GET ANNOUNCEMENT BY ID
+app.post("/api/get-announcement-by-id", (req, res) => {
+  const sql = `SELECT * FROM announcement WHERE id = "${req.body.id}"`;
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// UPDATE ANNOUNCEMENT
+app.patch("/api/update-announcement", async (req, res) => {
+  const sql = `UPDATE announcement SET 
+  title = "${req.body.title}",
+  description = "${req.body.description}",
+  event_date = "${req.body.event_date}",
+  event_time = "${req.body.event_time}"
+  WHERE id = "${req.body.id}"`;
+
+  db.query(sql, (err, data) => {
+    if (err) {
+      console.log(err.message);
+      return res.json(err.message);
+    }
+    return res.json(data);
+  });
+});
+
+// DELETE ANNOUNCEMENT
+app.patch("/api/delete-announcement", async (req, res) => {
+  const sql = `DELETE FROM announcement WHERE id = "${req.body.id}"`;
+
   db.query(sql, (err, data) => {
     if (err) {
       console.log(err.message);
