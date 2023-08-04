@@ -7,13 +7,13 @@ app.use(cors());
 app.use(express.json());
 
 // LOCAL ENV
-var db = mysql.createPool({
-  connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "gym_management_db",
-});
+// var db = mysql.createPool({
+//   connectionLimit: 10,
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "gym_management_db",
+// });
 
 // // STAGING ENV
 // var db = mysql.createPool({
@@ -24,14 +24,14 @@ var db = mysql.createPool({
 //   database: "bjgr1jesl31jjxv5rcmu",
 // });
 
-// // LIVE ENV
-// var db = mysql.createPool({
-//   connectionLimit: 10,
-//   host: "bc0sdf91p4dcl9ejqn2y-mysql.services.clever-cloud.com",
-//   user: "urwabm8curi9ze8t",
-//   password: "IS7oGCmFOJlAkQXx0yxv",
-//   database: "bc0sdf91p4dcl9ejqn2y",
-// });
+// LIVE ENV
+var db = mysql.createPool({
+  connectionLimit: 10,
+  host: "bc0sdf91p4dcl9ejqn2y-mysql.services.clever-cloud.com",
+  user: "urwabm8curi9ze8t",
+  password: "IS7oGCmFOJlAkQXx0yxv",
+  database: "bc0sdf91p4dcl9ejqn2y",
+});
 
 app.get("/", function (req, res) {
   res.send("Hello World!");
