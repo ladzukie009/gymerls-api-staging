@@ -30,7 +30,7 @@ app.use(express.json());
 //   host: "bc0sdf91p4dcl9ejqn2y-mysql.services.clever-cloud.com",
 //   user: "urwabm8curi9ze8t",
 //   password: "IS7oGCmFOJlAkQXx0yxv",
-//   database: "bc0sdf91p4dcl9ejqn2y", '7u9o;g
+//   database: "bc0sdf91p4dcl9ejqn2y",
 // });
 
 // LIVE ENV V2
@@ -40,6 +40,7 @@ var db = mysql.createPool({
   user: "uhqfirrfv0qrhk7z",
   password: "VTdgnmooKpW3jZv0A6p",
   database: "bpgylfcaazec168iuln1",
+  port: 20062,
 });
 
 app.get("/", function (req, res) {
