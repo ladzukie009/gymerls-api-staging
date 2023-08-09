@@ -25,12 +25,21 @@ app.use(express.json());
 // });
 
 // LIVE ENV
+// var db = mysql.createPool({
+//   connectionLimit: 10,
+//   host: "bc0sdf91p4dcl9ejqn2y-mysql.services.clever-cloud.com",
+//   user: "urwabm8curi9ze8t",
+//   password: "IS7oGCmFOJlAkQXx0yxv",
+//   database: "bc0sdf91p4dcl9ejqn2y", '7u9o;g
+// });
+
+// LIVE ENV V2
 var db = mysql.createPool({
-  connectionLimit: 10,
-  host: "bc0sdf91p4dcl9ejqn2y-mysql.services.clever-cloud.com",
-  user: "urwabm8curi9ze8t",
-  password: "IS7oGCmFOJlAkQXx0yxv",
-  database: "bc0sdf91p4dcl9ejqn2y",
+  connectionLimit: 15,
+  host: "bpgylfcaazec168iuln1-mysql.services.clever-cloud.com",
+  user: "uhqfirrfv0qrhk7z",
+  password: "VTdgnmooKpW3jZv0A6p",
+  database: "bpgylfcaazec168iuln1",
 });
 
 app.get("/", function (req, res) {
