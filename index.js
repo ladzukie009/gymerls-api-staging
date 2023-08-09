@@ -35,7 +35,7 @@ app.use(express.json());
 
 // LIVE ENV V2
 var db = mysql.createPool({
-  connectionLimit: 15,
+  connectionLimit: 10,
   host: "bpgylfcaazec168iuln1-mysql.services.clever-cloud.com",
   user: "uhqfirrfv0qrhk7z",
   password: "VTdgnmooKpW3jZv0A6p",
